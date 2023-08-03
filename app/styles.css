@@ -1,0 +1,12 @@
+form, 
+mux-player,
+h1 {
+  max-width: 42rem;
+}
+
+form {
+  display: grid;
+}
+form > *:not(label) {
+  margin-bottom: 1rem;
+}
