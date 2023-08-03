@@ -20,13 +20,10 @@ export default async function VideoPage({ params }: VideoPageProps) {
   const playbackId = asset?.playback_ids?.[0]?.id;
   if (!playbackId) notFound();
 
-  const passthrough = asset.passthrough ? JSON.parse(asset.passthrough) : {};
-
   return (
     <>
-      <MuxPlayerReact playbackId={playbackId} />
-      <h1>{passthrough.title}</h1>
-      <p>{passthrough.description}</p>
+      <MuxPlayerReact playbackId={playbackId} streamType="on-demand" />
+      <h1>{asset.passthrough ?? "No Title Found"}</h1>
     </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MuxUploader from "@mux/mux-uploader-react";
-import { addDataToUpload } from "./actions";
+import { saveVideoToDb } from "./actions";
 import FormStatusButton from "./pending-button";
 
 type FormProps = {
@@ -11,23 +11,22 @@ type FormProps = {
 };
 export default function Form({ uploadId, endpoint }: FormProps) {
   const [uploaded, setUploaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   return (
     <form
       action={async (formData) => {
-        setError(null);
-        const response = await addDataToUpload(uploadId, formData);
-        if (response?.error) setError(response.error);
+        setMessage(null);
+        const response = await saveVideoToDb(formData);
+        if (response?.error) setMessage(response.error);
       }}
     >
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" id="title" />
-      <label htmlFor="description">Description</label>
-      <textarea name="description" id="description" />
       <MuxUploader endpoint={endpoint} onSuccess={() => setUploaded(true)} />
+      <input type="hidden" name="upload" id="upload" defaultValue={uploadId} />
+      <label htmlFor="title">Title</label>
+      <input required type="text" name="title" id="title" />
       <FormStatusButton disabled={!uploaded}>Submit</FormStatusButton>
-      {error && <p>{error}</p>}
+      {message ? <p>{message}</p> : null}
     </form>
   );
 }
