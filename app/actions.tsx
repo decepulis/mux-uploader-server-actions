@@ -5,7 +5,7 @@ import Video from "./mux";
 
 export async function saveVideoToDb(formData: FormData) {
   const title = formData.get("title");
-  const uploadId = formData.get("uploadId");
+  const uploadId = formData.get("upload");
 
   if (typeof title !== "string" || title.length === 0)
     return { error: "Title is required" };
